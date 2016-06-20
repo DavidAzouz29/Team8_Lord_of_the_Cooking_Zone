@@ -7,7 +7,7 @@
 /// ----------------------------------
 /// Brief: Player Controller class that controls the player.
 /// viewed: https://unity3d.com/learn/tutorials/projects/roll-a-ball/moving-the-player
-/// 
+/// http://wiki.unity3d.com/index.php?title=Xbox360Controller
 /// *Edit*
 /// - Player state machine - 20/06/2016
 /// TODO:
@@ -31,6 +31,8 @@ public class PlayerController : MonoBehaviour
     [Tooltip("This will change at runtime.")]
     public string verticalAxis = "Vertical";
     public string horizontalAxis = "Horizontal";
+    public string rotationAxisX = "Rotation_X";
+    public string rotationAxisY = "Rotation_X";
 
     [Header("Weapon")]
     public GameObject r_weapon;
@@ -63,13 +65,15 @@ public class PlayerController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
+        #region RigidBody
         /*m_rigidBody = GetComponent<Rigidbody>();
 
         //if rigid body == null
         if (!m_rigidBody)
         {
             Debug.LogError("No Rigidbody");
-        } */     
+        } */
+        #endregion
 
         //setting our current state to alive
         m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_ALIVE;
@@ -77,12 +81,15 @@ public class PlayerController : MonoBehaviour
         /*int randSelection = (int)Random.Range(0, MAX_PLAYERS - 1);
         Debug.Log("Player: " + randSelection); */
 
+        // Loops through our players and assigns variables for input from different controllers
         for (uint i = 0; i < MAX_PLAYERS; ++i)
         {
             if (m_playerID == i)
             {
                 verticalAxis = "P" + (i + 1) + "_Vertical";
                 horizontalAxis = "P" + (i + 1) + "_Horizontal";
+                rotationAxisX = "P" + (i + 1) + "_Rotation_X";
+                rotationAxisY = "P" + (i + 1) + "_Rotation_Y";
             }
             /*// Choose someone to allocate the bomb too
             if (m_playerID == 2)//c_bomb.randSelection) // TODO: randSelection
@@ -99,12 +106,23 @@ public class PlayerController : MonoBehaviour
         //creating a variable that gets the input axis
         float moveHorizontal = Input.GetAxis(horizontalAxis);
         float moveVertical = Input.GetAxis(verticalAxis);
+        float moveRotationX = Input.GetAxis(rotationAxisX);
+        float moveRotationY = Input.GetAxis(rotationAxisY);
 
-        Vector3 movementDirection = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        Vector3 pos = transform.position + movementDirection * playerSpeed * Time.deltaTime;
-        transform.position = Vector3.Lerp(transform.position, pos, 0.2f);
+       float fRot = 0.2f;
+        // Movement
+        if (moveHorizontal < -fRot || moveHorizontal > fRot ||
+            moveVertical < -fRot || moveVertical > fRot)
+        {
+            Vector3 movementDirection = new Vector3(moveHorizontal, 0.0f, moveVertical);
+            Vector3 pos = transform.position + movementDirection * playerSpeed * Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, pos, 0.2f);
+        }
+        //transform.position = Vector3.Lerp(transform.parent.position, pos, 0.2f);
+        //transform.parent.position = Vector3.Lerp(transform.parent.position, pos, 0.2f);
 
         //Switches between player states
+        #region Player States
         switch (m_eCurrentPlayerState)
         {
             //checks if the player is alive
@@ -143,9 +161,18 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
         }
+        #endregion
+
+        // If we are rotating
+        // Rotation/ Direction with
+        if(moveRotationX < -fRot || moveRotationX > fRot ||
+            moveRotationY < -fRot || moveRotationY > fRot)
+        {
+            transform.parent.forward = new Vector3(moveRotationX, 0.0f, moveRotationY);
+        }
 
         // if we topple over
-        if(Input.GetButton("Reset"))
+        if (Input.GetButton("Reset"))
         {
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, 0.2f);
         }
@@ -196,6 +223,14 @@ public class PlayerController : MonoBehaviour
     {
         m_playerID = a_uiPlayerID; 
     }
+
+    // Upon Collision TODO: is this still needed?
+    /*void OnCollisionEnter()
+    {
+        Vector3 v3PreviousPos = transform.localPosition;
+        transform.parent.position = transform.localPosition;
+        transform.position = v3PreviousPos;
+    } */
 
     /*void OnCollisionStay(Collision a_collision)
     {
