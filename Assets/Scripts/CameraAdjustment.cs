@@ -3,7 +3,7 @@ using System.Collections;
 
 public class CameraAdjustment : MonoBehaviour
 {
-
+    [Header("Players")]
     public GameObject[] m_Players = new GameObject[4];
 
     int curPlayer = 0;
