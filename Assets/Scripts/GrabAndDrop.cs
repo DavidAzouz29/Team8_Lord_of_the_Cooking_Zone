@@ -7,12 +7,15 @@ using System.Collections;
 
 public class GrabAndDrop : MonoBehaviour
 {
-	GameObject grabbedObject;
+    public GameObject character;
+	public GameObject grabbedObject;
 	float grabbedObjectSize;
 
 	Vector3 previousGrabPosition;
 
-	float chargeTime= 0; 
+    private WeaponScript weapon;
+
+//	public float chargeTime= 0; 
 
 	// Use this for initialization
 	void Start ()
@@ -30,6 +33,7 @@ public class GrabAndDrop : MonoBehaviour
 		Vector3 position = gameObject.transform.position;
 		RaycastHit raycastHit;
 		Vector3 target = position + Camera.main.transform.forward * range;
+        Debug.DrawLine(position, target);
 		if (Physics.Linecast (position, target, out raycastHit)) {
 			return raycastHit.collider.gameObject;
 		}
@@ -38,55 +42,87 @@ public class GrabAndDrop : MonoBehaviour
 
 	void TryGrabObject (GameObject grabObject)
 	{
-		if (grabObject == null)
-			return;
+        if (grabObject == null)
+        {
+            return;
+        }
+
+       weapon = grabObject.GetComponent<WeaponScript>();
+
+        if (weapon.grabbable == false)
+        {
+            return;
+        }
+
+        weapon.grabbable = false;
 		grabbedObject = grabObject;
-		grabbedObjectSize = grabObject.GetComponent<Renderer> ().bounds.size.magnitude;
-		grabObject.GetComponent<Rigidbody> ().useGravity = false;
+
+        Rigidbody rb = grabObject.GetComponent<Rigidbody>();
+
+        rb.isKinematic = true;
+        rb.velocity = new Vector3(0, 0, 0);
+        grabObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+        grabObject.transform.parent = this.transform;
+        Vector3 offset;
+
+        Bounds Boundsize = grabObject.GetComponent<MeshRenderer>().bounds;
+
+        offset.x = 0;
+        offset.y = Boundsize.size.y / 2;
+        offset.z = Boundsize.size.z / 2;
+
+        grabObject.transform.localPosition = offset;
 	}
 
 	void DropObject (float pushForce)
 	{
-		if (grabbedObject == null)
-			return;
-		Rigidbody rb = grabbedObject.GetComponent<Rigidbody> ();
-		if (rb != null) {
-			Vector3 throwVectory = grabbedObject.transform.position - previousGrabPosition;
-			float speed = throwVectory.magnitude / Time.deltaTime;
-			Vector3 throwVelocity = speed * throwVectory.normalized;
+        if (grabbedObject == null)
+        {
+            return;
+        }
 
-			throwVelocity += Camera.main.transform.forward * pushForce;
+        grabbedObject.transform.parent = null;
+        grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
 
-			rb.velocity = throwVelocity;
-			rb.useGravity = true;
-		}
+        weapon.grabbable = true;
+        weapon = null;
 		grabbedObject = null;
 	}
+
 	// Update is called once per frame
 	void Update ()
 	{
-		Debug.Log (GetMouseHoverObject (5));
 		// if we right click...
-		if (Input.GetMouseButtonDown (1)) {
+		if(Input.GetButtonDown("Fire2"))
+		{
+			// if we don't have an object
 			if (grabbedObject == null)
-				TryGrabObject (GetMouseHoverObject (5));
+			{
+                GameObject temp = GetMouseHoverObject(5);
+                if (temp != null && temp.tag == "Weapon")
+                {
+                    TryGrabObject(temp);
+                }
+			}
 			else
 				DropObject (0);
 		}
-		//
-		if (Input.GetMouseButton (0))
-			chargeTime += Time.deltaTime;
-		//
-		if (Input.GetMouseButtonUp (0)) {
-			float pushForce = chargeTime * 20;
-			pushForce = Mathf.Clamp (pushForce, 1, 100);
-			DropObject (pushForce);
-			chargeTime = 0;
-		}
-		if (grabbedObject != null) {
-			previousGrabPosition = grabbedObject.transform.position;
-			Vector3 newPosition = gameObject.transform.position + Camera.main.transform.forward * grabbedObjectSize;
-			grabbedObject.transform.position = newPosition;
-		}
+        //Shoot/Throw
+		if(Input.GetButtonDown("Fire1"))
+        {
+            if (grabbedObject == null)
+            {
+                return;
+            }
+
+            grabbedObject.transform.parent = null;
+            Rigidbody rb = grabbedObject.GetComponent<Rigidbody>();
+
+            rb.velocity = character.transform.right * weapon.throwSpeed;
+
+            rb.isKinematic = false;
+
+            grabbedObject = null;
+        }
 	}
 }
