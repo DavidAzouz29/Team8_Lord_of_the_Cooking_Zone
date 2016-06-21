@@ -36,7 +36,8 @@ public class PlayerController : MonoBehaviour
 
     [Header("Weapon")]
     public GameObject r_weapon;
-    public GameObject r_bombExplosionParticleEffect;
+    //public GameObject r_gameOverPanel;
+    //public GameObject r_bombExplosionParticleEffect;
     //public Camera r_camera;
 
     //choosing player states
@@ -152,7 +153,7 @@ public class PlayerController : MonoBehaviour
     {
         r_weapon.SetActive(false);
         Destroy(this.gameObject);
-        //r_gameOverPanel.SetActive(true);
+        //r_gameOverPanel.SetActive(true); 
         Time.timeScale = 0;
         // After three seconds, return to menu
         Invoke("ReturnToMenu", 1);
