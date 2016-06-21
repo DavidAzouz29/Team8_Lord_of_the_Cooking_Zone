@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &173200
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 144594}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.53, y: 1.972, z: 1.35}
+  m_LocalPosition: {x: 2.6544204, y: -5.5156827, z: -6.452523}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471116}
@@ -219,9 +219,8 @@ MonoBehaviour:
   rotationAxisX: Rotation
   rotationAxisY: Rotation
   r_weapon: {fileID: 173200}
-  r_bombExplosionParticleEffect: {fileID: 0}
-  m_playerID: 0
   m_eCurrentPlayerState: 1
+  m_playerID: 0
 --- !u!135 &13527760
 SphereCollider:
   m_ObjectHideFlags: 1

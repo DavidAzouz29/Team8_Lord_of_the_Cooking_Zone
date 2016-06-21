@@ -29,10 +29,10 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     public float speedBoost = 6;
     [Tooltip("This will change at runtime.")]
-    public string verticalAxis = "Vertical";
-    public string horizontalAxis = "Horizontal";
-    public string rotationAxisX = "Rotation_X";
-    public string rotationAxisY = "Rotation_X";
+    public string verticalAxis = "_Vertical";
+    public string horizontalAxis = "_Horizontal";
+    public string rotationAxisX = "_Rotation_X";
+    public string rotationAxisY = "_Rotation_X";
 
     [Header("Weapon")]
     public GameObject r_weapon;
@@ -65,21 +65,26 @@ public class PlayerController : MonoBehaviour
         //setting our current state to alive
         m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_ALIVE;
 
+        verticalAxis = "_Vertical";
+        horizontalAxis = "_Horizontal";
+        rotationAxisX = "_Rotation_X";
+        rotationAxisY = "_Rotation_X";
+
         // Loops through our players and assigns variables for input from different controllers
         for (uint i = 0; i < MAX_PLAYERS; ++i)
         {
             if (m_playerID == i)
             {
-                verticalAxis = "P" + (i + 1) + "_Vertical";
-                horizontalAxis = "P" + (i + 1) + "_Horizontal";
-                rotationAxisX = "P" + (i + 1) + "_Rotation_X";
-                rotationAxisY = "P" + (i + 1) + "_Rotation_Y";
+                verticalAxis = "P" + (i + 1) + verticalAxis; //"_Vertical";
+                horizontalAxis = "P" + (i + 1) + horizontalAxis; // "_Horizontal";
+                rotationAxisX = "P" + (i + 1) + rotationAxisX; // "_Rotation_X";
+                rotationAxisY = "P" + (i + 1) + rotationAxisY; // "_Rotation_Y";
             }
-        }        
+        }
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update ()
     {
         //creating a variable that gets the input axis
         float moveHorizontal = Input.GetAxis(horizontalAxis);
@@ -102,6 +107,7 @@ public class PlayerController : MonoBehaviour
             moveRotationY < -fRot || moveRotationY > fRot)
         {
             transform.forward = new Vector3(moveRotationX, 0.0f, moveRotationY);
+            Debug.LogFormat("{0}", m_playerID);
         }
 
         // if we topple over
