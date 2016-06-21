@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -67,11 +67,11 @@ MonoBehaviour:
   v3PlayerPosition: {x: 0, y: 0, z: 0}
   c_Camera: {fileID: 0}
   r_Player1: {fileID: 2100000, guid: ea1370ecde5f46341bf77b477774cbcb, type: 2}
-  r_Player2: {fileID: 2100000, guid: 5db546bba0bdd2c40a1a7a7a4bcb093b, type: 2}
+  r_Player2: {fileID: 2100000, guid: 57f55d2eb2421ef4d8e437fc9f608cd7, type: 2}
   uiPlayerArray:
   - {fileID: 0}
   - {fileID: 0}
-  r_PlayerController: {fileID: 11405644}
+  r_PlayerController: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

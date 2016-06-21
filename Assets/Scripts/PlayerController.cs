@@ -217,7 +217,7 @@ public class PlayerController : MonoBehaviour
     {
         if (a_collision.gameObject.tag == "Weapon")
         {
-            Debug.LogError("HIT");
+            Debug.Log("PC: HIT");
             health -= 20;
         }
     }

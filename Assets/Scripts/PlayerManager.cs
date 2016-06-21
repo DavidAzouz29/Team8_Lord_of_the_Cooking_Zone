@@ -10,7 +10,7 @@
 /// ***EDIT***
 /// - 	- David Azouz 11/04/16
 /// -  - David Azouz 11/04/16
-/// -  - David Azouz 12/04/16
+/// - Players have unique material - David Azouz 21/06/16
 /// 
 /// TODO:
 /// - change remove const from MAX_PLAYERS
@@ -67,7 +67,7 @@ public class PlayerManager : MonoBehaviour
             v3PlayerPosition.x = Random.Range(-fTerrRadius, fTerrRadius); //
             v3PlayerPosition.z = Random.Range(-fTerrRadius, fTerrRadius); //
             Object j = Instantiate(r_Player, v3PlayerPosition, r_Player.transform.rotation);
-            MeshRenderer mesh = ((GameObject)j).GetComponentInChildren<MeshRenderer>();
+            SkinnedMeshRenderer mesh = ((GameObject)j).GetComponentInChildren<SkinnedMeshRenderer>();
             // if the first player
             if(i == 0)
             {
