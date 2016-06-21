@@ -24,7 +24,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.06577021, y: 1.4353507, z: -0.23315287}
+  m_LocalPosition: {x: 0, y: 2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -35,23 +35,19 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 119002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a38d93fbb21cdf41911aaf39ce72b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 0
   speedBoost: 50
-  r_bomb: {fileID: 159418, guid: a7ea72780f5578a4bb27f06df9c99d8e, type: 2}
-  r_bombParticleEffect: {fileID: 0}
-  r_camera: {fileID: 0}
   verticalAxis: P1_Vertical
   horizontalAxis: P1_Horizontal
-  colorsArray:
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0, g: 0, b: 0, a: 0}
+  rotationAxisX: Rotation_X
+  rotationAxisY: Rotation_X
+  r_weapon: {fileID: 0}
+  r_bombExplosionParticleEffect: {fileID: 0}
   m_playerID: 0
   m_eCurrentPlayerState: 0
 --- !u!114 &11405996
@@ -65,13 +61,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3018b43c077382546b330607ef477773, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  r_Player: {fileID: 181914, guid: a7ea72780f5578a4bb27f06df9c99d8e, type: 2}
+  r_Player: {fileID: 144594, guid: 88fa3afb77fe8f24c9b8f0bb4ef7e3a9, type: 2}
   v3PlayerPosition: {x: 0, y: 0, z: 0}
   uiPlayerArray:
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  r_PlayerController: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
