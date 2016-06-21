@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     public string rotationAxisX = "Rotation_X";
     public string rotationAxisY = "Rotation_X";
 
+    
+
     [Header("Weapon")]
     public GameObject r_weapon;
     //public GameObject r_gameOverPanel; //w
@@ -58,6 +60,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private uint m_playerID = 0;
     //Rigidbody m_rigidBody;
     private float fRot = 0.2f;
+
+    private int health = 100;
 
     // Use this for initialization
     void Start ()
@@ -110,6 +114,11 @@ public class PlayerController : MonoBehaviour
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, 0.2f);
         }
 
+        if (health >= 0)
+        {
+            //DO STUFF
+        }
+
         //m_rigidBody.AddForce(movementDirection * playerSpeed * Time.deltaTime);
 
         //Switches between player states
@@ -119,7 +128,7 @@ public class PlayerController : MonoBehaviour
             //checks if the player is alive
             case E_PLAYER_STATE.E_PLAYER_STATE_ALIVE:
                 {
-                    r_weapon.SetActive(false);
+//                    r_weapon.SetActive(false);
                     //Debug.Log("Alive!");
                     break;
                 }
@@ -198,27 +207,12 @@ public class PlayerController : MonoBehaviour
         transform.position = v3PreviousPos;
     } */
 
-    /*void OnCollisionStay(Collision a_collision)
+    void OnCollisionEnter(Collision a_collision)
     {
-        //if current players state is "BOMB"
-        if (m_eCurrentPlayerState == E_PLAYER_STATE.E_PLAYER_STATE_BOMB &&
-            a_collision.collider.GetComponent<PlayerController>().m_eCurrentPlayerState == E_PLAYER_STATE.E_PLAYER_STATE_ALIVE)
+        if (a_collision.gameObject.tag == "Weapon")
         {
-            //And is colliding with another player
-            if (a_collision.collider.tag == "Player")
-            {
-                // change the other players state
-                a_collision.collider.GetComponent<PlayerController>().m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_BOMB;
-                //change the state of ourselves to alive
-                m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_ALIVE;
-                //r_camera.fieldOfView = Mathf.Lerp(70, 60, Time.time);
-                Debug.Log("CHECK IF COLLIDED: OnCollExit");
-            }
+            Debug.LogError("HIT");
+            health -= 20;
         }
-        else
-        {
-            Debug.Log("GLHF");
-        }
-    } */
-
+    }
 }

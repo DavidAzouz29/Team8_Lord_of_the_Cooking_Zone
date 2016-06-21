@@ -38,6 +38,7 @@ public class WeaponScript : MonoBehaviour {
             grabbable = true;
             thrown = false;
             currentAirTime = 0;
+            tag = "Pickup";
         }
     }
 }
