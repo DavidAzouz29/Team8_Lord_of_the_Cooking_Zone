@@ -37,20 +37,12 @@ public class PlayerController : MonoBehaviour
     public GameObject r_bombExplosionParticleEffect;
     //public Camera r_camera;
 
-    // A way to identidy players
-    [SerializeField] private uint m_playerID = 0;
-    // PRIVATE VARIABLES
-    //Rigidbody m_rigidBody;
-    //Quaternion qReset = Quaternion.identity;
-
     //choosing player states
     [HideInInspector]
     public enum E_PLAYER_STATE
     {
         E_PLAYER_STATE_ALIVE,
         E_PLAYER_STATE_WEAPON, //TODO: add more?
-        //E_PLAYER_STATE_WEAPON_POT,
-        //E_PLAYER_STATE_WEAPON_FISH,
         E_PLAYER_STATE_DEAD,
 
         E_PLAYER_STATE_COUNT,
@@ -58,11 +50,16 @@ public class PlayerController : MonoBehaviour
 
     public E_PLAYER_STATE m_eCurrentPlayerState;
 
-    //private bool isBombAllocated = false;
+    // PRIVATE VARIABLES
+    // A way to identidy players
+    [SerializeField] private uint m_playerID = 0;
+    //Rigidbody m_rigidBody;
+    private float fRot = 0.2f;
 
     // Use this for initialization
     void Start ()
     {
+<<<<<<< HEAD
         /*m_rigidBody = GetComponent<Rigidbody>();
 
         //if rigid body == null
@@ -77,6 +74,12 @@ public class PlayerController : MonoBehaviour
         /*int randSelection = (int)Random.Range(0, MAX_PLAYERS - 1);
         Debug.Log("Player: " + randSelection); */
 
+=======
+        //setting our current state to alive
+        m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_ALIVE;
+
+        // Loops through our players and assigns variables for input from different controllers
+>>>>>>> 4ae7ac31804f9c8c43fc87f6d3cc52ad44bf9b18
         for (uint i = 0; i < MAX_PLAYERS; ++i)
         {
             if (m_playerID == i)
@@ -84,12 +87,6 @@ public class PlayerController : MonoBehaviour
                 verticalAxis = "P" + (i + 1) + "_Vertical";
                 horizontalAxis = "P" + (i + 1) + "_Horizontal";
             }
-            /*// Choose someone to allocate the bomb too
-            if (m_playerID == 2)//c_bomb.randSelection) // TODO: randSelection
-            {
-                m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_BOMB;
-                this.gameObject.tag = "HasBomb";
-            } //*/
         }        
     }
 	
@@ -100,9 +97,36 @@ public class PlayerController : MonoBehaviour
         float moveHorizontal = Input.GetAxis(horizontalAxis);
         float moveVertical = Input.GetAxis(verticalAxis);
 
+<<<<<<< HEAD
         Vector3 movementDirection = new Vector3(moveHorizontal, 0.0f, moveVertical);
         Vector3 pos = transform.position + movementDirection * playerSpeed * Time.deltaTime;
         transform.position = Vector3.Lerp(transform.position, pos, 0.2f);
+=======
+        // Movement
+        if (moveHorizontal < -fRot || moveHorizontal > fRot ||
+            moveVertical < -fRot || moveVertical > fRot)
+        {
+            Vector3 movementDirection = new Vector3(moveHorizontal, 0.0f, moveVertical);
+            Vector3 pos = transform.position + movementDirection * playerSpeed * Time.deltaTime;
+            transform.position = Vector3.Lerp(transform.position, pos, 0.2f);
+        }
+
+        // If we are rotating
+        // Rotation/ Direction with the (right) analog stick
+        if (moveRotationX < -fRot || moveRotationX > fRot ||
+            moveRotationY < -fRot || moveRotationY > fRot)
+        {
+            transform.forward = new Vector3(moveRotationX, 0.0f, moveRotationY);
+        }
+
+        // if we topple over
+        if (Input.GetButton("Reset"))
+        {
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, 0.2f);
+        }
+
+        //m_rigidBody.AddForce(movementDirection * playerSpeed * Time.deltaTime);
+>>>>>>> 4ae7ac31804f9c8c43fc87f6d3cc52ad44bf9b18
 
         //Switches between player states
         switch (m_eCurrentPlayerState)
@@ -110,19 +134,13 @@ public class PlayerController : MonoBehaviour
             //checks if the player is alive
             case E_PLAYER_STATE.E_PLAYER_STATE_ALIVE:
                 {
-                    //m_rigidBody.AddForce(movementDirection * playerSpeed * Time.deltaTime);
                     r_weapon.SetActive(false);
                     //Debug.Log("Alive!");
                     break;
                 }
             case E_PLAYER_STATE.E_PLAYER_STATE_WEAPON:
                 {
-                    //m_rigidBody.AddForce(movementDirection * (playerSpeed + speedBoost) * Time.deltaTime);
                     r_weapon.SetActive(true);
-                    /* if(c_bomb.bombTime <= 0)
-                    {
-                        m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_DEAD;
-                    } */
                     //Debug.Log("Bomb!");
                     break;
                 }
@@ -130,7 +148,7 @@ public class PlayerController : MonoBehaviour
             case E_PLAYER_STATE.E_PLAYER_STATE_DEAD:
                 {
                     // Particle effect bomb (explosion)
-                    r_bombExplosionParticleEffect.SetActive(true);
+                    //r_bombExplosionParticleEffect.SetActive(true);
                     // actions to perform after a certain time
                     uint uiBombEffectTimer = 2;
                     Invoke("BombEffectDead", uiBombEffectTimer);
@@ -143,6 +161,7 @@ public class PlayerController : MonoBehaviour
                     break;
                 }
         }
+<<<<<<< HEAD
 
         // if we topple over
         if(Input.GetButton("Reset"))
@@ -154,6 +173,9 @@ public class PlayerController : MonoBehaviour
         {
             m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_DEAD;
         }
+=======
+        #endregion
+>>>>>>> 4ae7ac31804f9c8c43fc87f6d3cc52ad44bf9b18
 	}
 
     void BombEffectDead()
