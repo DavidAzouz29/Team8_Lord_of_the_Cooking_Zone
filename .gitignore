@@ -18,9 +18,13 @@ ExportedObj/
 *.booproj
 *.svd
 
-# Standard Assets
-Assets/Standard Assets
-
+# Standard Assets - Import the Effects Assets
+Assets/Standard Assets/Effects/GlassRefraction
+Assets/Standard Assets/Effects/LightCookies
+Assets/Standard Assets/Effects/LightFlares
+Assets/Standard Assets/Effects/Projectors
+Assets/Standard Assets/Effects/TessellationShaders
+Assets/Standard Assets/Effects/ToonShading
 
 # Unity3D generated meta files
 *.pidb.meta

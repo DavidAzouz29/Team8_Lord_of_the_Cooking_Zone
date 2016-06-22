@@ -118,7 +118,7 @@ public class PlayerController : MonoBehaviour
 			Vector3 movementDirection = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 			Vector3 pos = transform.position + movementDirection * playerSpeed * Time.deltaTime;
 			transform.position = Vector3.Lerp (transform.position, pos, 0.2f);
-			Debug.Log("HELP");
+			//Debug.Log("HELP");
 			animator.SetBool("Walking", true);
 //			c_walk.CrossFade("Walk");
 		} 

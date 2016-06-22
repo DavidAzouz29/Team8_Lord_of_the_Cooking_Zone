@@ -26,10 +26,14 @@ public class PlayerManager : MonoBehaviour
     //----------------------------------
     // PUBLIC VARIABLES
     //----------------------------------
+	[Header("Hold Players")]
     public const uint MAX_PLAYERS = 2; // TODO: change in Player Controller
     public GameObject r_Player; // Referance to a player.
     public GameObject[] r_Players = new GameObject[MAX_PLAYERS]; // Used for camera FOV
     public Vector3 v3PlayerPosition = Vector3.zero;
+	[Header("Values for camera pos and Lerping")]
+	public Vector3 distance = Vector3.zero;
+	public float heightOfCamera = 2.3f;
     public Camera c_Camera;
     public Material r_Player1;
     public Material r_Player2;
@@ -93,12 +97,13 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+	//TODO: get camera lerping working
     // Used for zooming the camera in and out based on the distance of the playerss
   /*void Update()
     {
         // Distance
-        Vector2 smallest = r_Players[0].transform.position;
-        Vector2 largest = r_Players[0].transform.position;
+        Vector3 smallest = r_Players[0].transform.position;
+		Vector3 largest = r_Players[MAX_PLAYERS - 1].transform.position; //changed from 0
         foreach (GameObject g in r_Players)
         {
             if (g == null) break;
@@ -120,11 +125,16 @@ public class PlayerManager : MonoBehaviour
             {
                 largest.y = g.transform.position.z;
             }
-        }
+        } 
 
-        Vector2 distance = largest - smallest;
-        if (distance.x <= 5) distance.x = 5;
-        if (distance.y <= 5) distance.y = 5;
+        distance = largest - smallest;
+		if (distance.x <= 5) distance.x = 5; Debug.Log ("x");
+		if (distance.y <= 1) distance.y = 1; Debug.Log ("y");
+		if (distance.z <= 5) distance.z = 5; Debug.Log ("z");
+
+		if (distance.x >= 5) distance.x = 5; Debug.Log ("x");
+		if (distance.y >= 1) distance.y = 1; Debug.Log ("y");
+		if (distance.z >= 5) distance.z = 5; Debug.Log ("z");
 
         // Average
         Vector3 average = Vector3.zero;
@@ -135,13 +145,24 @@ public class PlayerManager : MonoBehaviour
             average += g.transform.position;
         }
         average /= MAX_PLAYERS;
-        float heightOfCamera = distance.magnitude;
-        if (heightOfCamera > 20) heightOfCamera = 20;
+        heightOfCamera = distance.magnitude;
+		if (heightOfCamera > 4) {
+			heightOfCamera = ;
+			//c_Camera.fieldOfView = Mathf.Lerp (m_iCameraFOV, m_iCameraFOVBT, Time.deltaTime);//m_fCameraFOVCurrent); //0.2f quicker || //Time.timeScale//
+
+		} else if (heightOfCamera < 3) {
+			heightOfCamera = 0;
+		} else if (heightOfCamera < -1) {
+			heightOfCamera = -1;
+		}
 
         //////Camera.main.transform.position = new Vector3(average.x, heightOfCamera, average.z - (3 * amountOfPlayers));
         //Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, new Vector3(average.x, heightOfCamera, average.z - (3 * MAX_PLAYERS)), 0.1f);
-
-
-        c_Camera.fieldOfView = Mathf.Lerp(m_iCameraFOV, m_iCameraFOVBT, m_fCameraFOVCurrent); //0.2f quicker || //Time.timeScale
-    } */
+		float fExtra = 0;//5.0f;
+		c_Camera.transform.position = Vector3.Lerp(c_Camera.transform.position, new Vector3(average.x - fExtra, heightOfCamera, average.z - (3 * MAX_PLAYERS) - fExtra), 0.1f);
+		Vector3 v3LookAt = new Vector3 (distance.x / 2, distance.y / 2, distance.z / 2);
+		c_Camera.transform.LookAt(v3LookAt); //Vector3.Lerp(Camera.main.transform.position, new Vector3(average.x, heightOfCamera, average.z - (3 * MAX_PLAYERS)), 0.1f);
+		Debug.DrawLine(c_Camera.transform.position, v3LookAt);
+		//c_Camera.fieldOfView = Mathf.Lerp (m_iCameraFOV, m_iCameraFOVBT, Time.deltaTime);//m_fCameraFOVCurrent); //0.2f quicker || //Time.timeScale//
+	} */
 }
