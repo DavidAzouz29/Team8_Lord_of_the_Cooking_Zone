@@ -643,7 +643,7 @@ InputManager:
     snap: 0
     invert: 0
     type: 2
-    axis: 3
+    axis: 4
     joyNum: 2
   - serializedVersion: 3
     m_Name: P2_Rotation_Y
@@ -657,9 +657,9 @@ InputManager:
     dead: 0.19
     sensitivity: 1
     snap: 0
-    invert: 1
+    invert: 0
     type: 2
-    axis: 4
+    axis: 3
     joyNum: 2
   - serializedVersion: 3
     m_Name: P1_Fire

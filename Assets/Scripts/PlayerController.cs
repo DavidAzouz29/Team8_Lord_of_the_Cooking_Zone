@@ -143,16 +143,16 @@ public class PlayerController : MonoBehaviour
         {
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, 0.2f);
         }
-		if (Input.GetButton ("Jump")) {
-		// TODO: do jump
+		if (Input.GetButton ("Jump"))
+        {
+		    // TODO: do jump
 		}
 
-
-        //if (health <= 0)
-		if(m_eCurrentPlayerState == E_PLAYER_STATE.E_PLAYER_STATE_DEAD)
+        if (health <= 0)
         {
+            m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_DEAD;
             //DO STUFF
-			animator.SetBool("Dead", true);
+            animator.SetBool("Dead", true);
         }
 
         //m_rigidBody.AddForce(movementDirection * playerSpeed * Time.deltaTime);
@@ -198,7 +198,7 @@ public class PlayerController : MonoBehaviour
 
     void BombEffectDead()
     {
-        r_weapon.SetActive(false);
+        //r_weapon.SetActive(false);
         Destroy(this.gameObject);
         r_gameOverPanel.SetActive(true); 
         Time.timeScale = 0;

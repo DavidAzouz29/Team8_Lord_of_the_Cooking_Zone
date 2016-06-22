@@ -25,33 +25,15 @@ public class GrabAndDrop : MonoBehaviour
 
     private WeaponScript weapon;
     private uint m_playerID = 0;
+    private Animator c_Animator;
+
     //private bool isFirst = true;
     //	public float chargeTime= 0; 
 
     // Use this for initialization
     void Start()
     {
-        //Fire = "_Fire";
-        //Throw = "_Throw";
-
-        // Loops through our players and assigns variables for input from different controllers
-        //for (uint i = 0; i < MAX_PLAYERS; ++i)
-        //{
-        //if (c_PlayerController.GetPlayerID() == i)
-        //if (m_playerID == i)
-       /* if (isFirst)
-        {
-            //Fire = "P" + (i + 1) + Fire;
-            Fire = "P1_Fire";// + _Fire;//Fire;
-            Throw = "P1_Throw";// + Throw;
-            isFirst = false;
-        }
-        else
-        {
-            Fire = "P2_Fire";// + Fire;
-            Throw = "P2_Throw";// + Throw;
-        } */
-        //}
+        c_Animator = GetComponentInChildren<Animator>();
     }
 
 	void TryGrabObject (GameObject grabObject)
@@ -134,7 +116,7 @@ public class GrabAndDrop : MonoBehaviour
             {
                 return;
             }
-
+            //c_Animator.SetTrigger("Throw"); //TODO: get throw animation working
             ThrowObject();
         }
 	}
