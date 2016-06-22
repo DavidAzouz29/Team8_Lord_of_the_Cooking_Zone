@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
     public string Jump = "_Jump";
 	Animator animator;
 
+    public AudioSource dizzyBirds;
+
     [Header("Weapon")]
     public GameObject r_weapon;
     public GameObject r_gameOverPanel;
@@ -250,6 +252,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("PC: HIT");        
             health -= 20;
+            dizzyBirds.Play();
 
 			float healthFraction = 1.0f - (float)health / 100;
 			healthFraction = Mathf.Lerp (0, 5, healthFraction);
