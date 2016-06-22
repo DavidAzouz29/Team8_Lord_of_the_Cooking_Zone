@@ -2,30 +2,57 @@
 /// Author Fraser Brown
 /// 20/6/2016
 /// https://www.youtube.com/watch?v=jOOdJZS987Y
+/// 
+/// TODO: move this to the playerController
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class GrabAndDrop : MonoBehaviour
 {
+	public const uint MAX_PLAYERS = 2; //TODO: more than two players?
     public GameObject character;
 	public GameObject grabbedObject;
     public GameObject hand;
+    public PlayerController c_PlayerController;
 	float grabbedObjectSize;
+	//public string Fire = "_Fire";
+	//public string Throw = "_Throw";
 
     public List<GameObject> pickups;
 
 	Vector3 previousGrabPosition;
 
     private WeaponScript weapon;
+    private uint m_playerID = 0;
+    //private bool isFirst = true;
+    //	public float chargeTime= 0; 
 
-//	public float chargeTime= 0; 
+    // Use this for initialization
+    void Start()
+    {
+        //Fire = "_Fire";
+        //Throw = "_Throw";
 
-	// Use this for initialization
-	void Start ()
-	{
-	
-	}
+        // Loops through our players and assigns variables for input from different controllers
+        //for (uint i = 0; i < MAX_PLAYERS; ++i)
+        //{
+        //if (c_PlayerController.GetPlayerID() == i)
+        //if (m_playerID == i)
+       /* if (isFirst)
+        {
+            //Fire = "P" + (i + 1) + Fire;
+            Fire = "P1_Fire";// + _Fire;//Fire;
+            Throw = "P1_Throw";// + Throw;
+            isFirst = false;
+        }
+        else
+        {
+            Fire = "P2_Fire";// + Fire;
+            Throw = "P2_Throw";// + Throw;
+        } */
+        //}
+    }
 
 	void TryGrabObject (GameObject grabObject)
 	{
@@ -84,7 +111,7 @@ public class GrabAndDrop : MonoBehaviour
 	void Update ()
 	{
 		// if we right click...
-		if(Input.GetButtonDown("Fire2"))
+		if(Input.GetButtonDown("P1_Fire") || Input.GetButtonDown("P2_Fire"))
 		{
             // if we don't have an object
             if (grabbedObject == null)
@@ -101,7 +128,7 @@ public class GrabAndDrop : MonoBehaviour
 //            }
 		}
         //Shoot/Throw
-		if(Input.GetButtonDown("Fire1"))
+		if(Input.GetButtonDown("P1_Throw") || Input.GetButtonDown("P2_Throw"))
         {
             if (grabbedObject == null)
             {

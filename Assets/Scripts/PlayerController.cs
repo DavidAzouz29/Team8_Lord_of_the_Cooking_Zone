@@ -32,13 +32,15 @@ public class PlayerController : MonoBehaviour
     public string verticalAxis = "_Vertical";
     public string horizontalAxis = "_Horizontal";
     public string rotationAxisX = "_Rotation_X";
-    public string rotationAxisY = "_Rotation_X";
-
-    
+	public string rotationAxisY = "_Rotation_Y";
+	public string Fire = "_Fire";
+	public string Throw = "_Throw";
+    public string Jump = "_Jump";
+	Animator animator;
 
     [Header("Weapon")]
     public GameObject r_weapon;
-    //public GameObject r_gameOverPanel; //w
+    public GameObject r_gameOverPanel;
     //public GameObject r_bombExplosionParticleEffect;
     //public Camera r_camera;
 
@@ -63,16 +65,21 @@ public class PlayerController : MonoBehaviour
 
     private int health = 100;
 
+	private healthBar healthBars;
+
     // Use this for initialization
     void Start ()
     {
-        //setting our current state to alive
+		//setting our current state to alive
         m_eCurrentPlayerState = E_PLAYER_STATE.E_PLAYER_STATE_ALIVE;
 
         verticalAxis = "_Vertical";
         horizontalAxis = "_Horizontal";
         rotationAxisX = "_Rotation_X";
-        rotationAxisY = "_Rotation_X";
+        rotationAxisY = "_Rotation_Y";
+        Fire = "_Fire";
+        Throw = "_Throw";
+        Jump = "_Jump";
 
         // Loops through our players and assigns variables for input from different controllers
         for (uint i = 0; i < MAX_PLAYERS; ++i)
@@ -83,8 +90,15 @@ public class PlayerController : MonoBehaviour
                 horizontalAxis = "P" + (i + 1) + horizontalAxis; // "_Horizontal";
                 rotationAxisX = "P" + (i + 1) + rotationAxisX; // "_Rotation_X";
                 rotationAxisY = "P" + (i + 1) + rotationAxisY; // "_Rotation_Y";
+				Fire = "P" + (i + 1) + Fire;
+                Throw = "P" + (i + 1) + Throw;
+                Jump = "P" + (i + 1) + Jump;
             }
         }
+
+		healthBars = FindObjectOfType<healthBar> ();
+
+		animator = GetComponentInChildren<Animator> ();
     }
 
     // Update is called once per frame
@@ -97,13 +111,21 @@ public class PlayerController : MonoBehaviour
         float moveRotationY = Input.GetAxis(rotationAxisY);
 
         // Movement
-        if (moveHorizontal < -fRot || moveHorizontal > fRot ||
-            moveVertical < -fRot || moveVertical > fRot)
-        {
-            Vector3 movementDirection = new Vector3(moveHorizontal, 0.0f, moveVertical);
-            Vector3 pos = transform.position + movementDirection * playerSpeed * Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, pos, 0.2f);
-        }
+		if (moveHorizontal < -fRot || moveHorizontal > fRot ||
+		          moveVertical < -fRot || moveVertical > fRot) {
+			Vector3 movementDirection = new Vector3 (moveHorizontal, 0.0f, moveVertical);
+			Vector3 pos = transform.position + movementDirection * playerSpeed * Time.deltaTime;
+			transform.position = Vector3.Lerp (transform.position, pos, 0.2f);
+			Debug.Log("HELP");
+			animator.SetBool("Walking", true);
+//			c_walk.CrossFade("Walk");
+		} 
+		// we're not moving so play the idle animation
+		else 
+		{
+			animator.SetBool ("Walking", false);
+//			c_idle.Play ("idle");
+		}
 
         // If we are rotating
         // Rotation/ Direction with the (right) analog stick
@@ -119,10 +141,16 @@ public class PlayerController : MonoBehaviour
         {
             transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.identity, 0.2f);
         }
+		if (Input.GetButton ("Jump")) {
+		// TODO: do jump
+		}
 
-        if (health >= 0)
+
+        //if (health <= 0)
+		if(m_eCurrentPlayerState == E_PLAYER_STATE.E_PLAYER_STATE_DEAD)
         {
             //DO STUFF
+			animator.SetBool("Dead", true);
         }
 
         //m_rigidBody.AddForce(movementDirection * playerSpeed * Time.deltaTime);
@@ -152,6 +180,8 @@ public class PlayerController : MonoBehaviour
                     // actions to perform after a certain time
                     uint uiBombEffectTimer = 2;
                     Invoke("BombEffectDead", uiBombEffectTimer);
+//					c_death.CrossFade("Death");
+
                     Debug.Log("Dead :(");
                     break;
                 }
@@ -168,7 +198,7 @@ public class PlayerController : MonoBehaviour
     {
         r_weapon.SetActive(false);
         Destroy(this.gameObject);
-        //r_gameOverPanel.SetActive(true); 
+        r_gameOverPanel.SetActive(true); 
         Time.timeScale = 0;
         // After three seconds, return to menu
         Invoke("ReturnToMenu", 1);
@@ -213,12 +243,19 @@ public class PlayerController : MonoBehaviour
         transform.position = v3PreviousPos;
     } */
 
+
     void OnCollisionEnter(Collision a_collision)
     {
         if (a_collision.gameObject.tag == "Weapon")
         {
-            Debug.Log("PC: HIT");
+            Debug.Log("PC: HIT");        
             health -= 20;
+
+			float healthFraction = 1.0f - (float)health / 100;
+			healthFraction = Mathf.Lerp (0, 5, healthFraction);
+			int healthImageID = Mathf.FloorToInt (healthFraction);
+
+			healthBars.healthHit (m_playerID, healthImageID);
         }
     }
 }

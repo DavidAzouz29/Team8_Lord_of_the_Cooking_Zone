@@ -719,9 +719,47 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: healthUi.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: newSprite.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: newSprite.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 05a9c85ca9695fd4aa98740c61e36711,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: newSprite.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: a24b77112483a4140bc0c3f58db764b9,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: newSprite.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: c696651fb1d16b04eaef07a094655647,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: newSprite.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: a30a13660caead8498ddd2a5e33c870e,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: newSprite.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 42e1ea0d0df0fbc4f971702bd2a4742d,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: newSprite.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: 01ba6d82c539de54f9a43a8f690bb4a1,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 144594}

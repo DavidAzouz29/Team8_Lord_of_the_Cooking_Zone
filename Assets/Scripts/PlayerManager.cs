@@ -67,6 +67,7 @@ public class PlayerManager : MonoBehaviour
             v3PlayerPosition.x = Random.Range(-fTerrRadius, fTerrRadius); //
             v3PlayerPosition.z = Random.Range(-fTerrRadius, fTerrRadius); //
             Object j = Instantiate(r_Player, v3PlayerPosition, r_Player.transform.rotation);
+			j.name = "Character " + ( i + 1);
             SkinnedMeshRenderer mesh = ((GameObject)j).GetComponentInChildren<SkinnedMeshRenderer>();
             // if the first player
             if(i == 0)
